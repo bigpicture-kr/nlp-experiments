@@ -44,6 +44,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--in_dir', type=str, required=True, default=None)
     parser.add_argument('--out_dir', type=str, required=True, default=None)
+    parser.add_argument('--train_data_size', type=int, default=500)
+    parser.add_argument('--validation_data_size', type=int, default=50)
     args = parser.parse_args()
 
     topic = {
@@ -59,7 +61,9 @@ if __name__ == '__main__':
     }
 
     filenames = get_every_filename()
-    idx = 0
+    sample_type = {v: 'train' for v in topic.values()}
+    train_samples_sizes = {v: 0 for v in topic.values()}
+    valid_samples_sizes = {v: 0 for v in topic.values()}
 
     for filename in tqdm(filenames):
         #print(f'{filename} is running...')
@@ -70,6 +74,17 @@ if __name__ == '__main__':
             news_data = json_data['document'][news_idx]
             id = news_data['id'].replace('.', '_')
             topic_eng = topic[news_data['metadata']['topic']]
+
+            # Sampling a specific number of data for each label
+            if sample_type[topic_eng] == 'train' and train_samples_sizes[topic_eng] >= args.train_data_size:
+                sample_type[topic_eng] = 'validation'
+            elif sample_type[topic_eng] == 'validation' and valid_samples_sizes[topic_eng] >= args.validation_data_size:
+                continue
+            if sample_type[topic_eng] == 'train':
+                train_samples_sizes[topic_eng] += 1
+            elif sample_type[topic_eng] == 'validation':
+                valid_samples_sizes[topic_eng] += 1
+
             content = ''
             for line in news_data['paragraph']:
                 content += (line['form'] + '\n')
@@ -78,7 +93,7 @@ if __name__ == '__main__':
             #print('topic: ', topic_eng)
             #print('content: ', content)
 
-            output_path = f'{args.out_dir}/{topic_eng}/{id}.txt'
+            output_path = f'{args.out_dir}/{sample_type[topic_eng]}/{topic_eng}/{id}.txt'
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
             with open(output_path, 'w', encoding='utf-8') as file:
                 file.write(content)
