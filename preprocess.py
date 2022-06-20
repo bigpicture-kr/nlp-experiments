@@ -1,6 +1,7 @@
 import os
 import json
 from collections import OrderedDict
+from tqdm import tqdm
 
 def data_to_json(data):
     file_data = OrderedDict()
@@ -54,10 +55,10 @@ if __name__ == '__main__':
     filenames = get_every_filename()
     idx = 0
 
-    for filename in filenames:
-        print(f'{filename} is running...')
+    for filename in tqdm(filenames):
+        #print(f'{filename} is running...')
 
-        with open(f'./{filename}.json', 'r', encoding='utf-8') as file:
+        with open(f'./dataset/news_corpus/{filename}.json', 'r', encoding='utf-8') as file:
             json_data = json.load(file)
         for news_idx in range(len(json_data['document'])):
             news_data = json_data['document'][news_idx]
@@ -67,10 +68,11 @@ if __name__ == '__main__':
             for line in news_data['paragraph']:
                 content += (line['form'] + '\n')
             
-            print('id: ', id)
-            print('topic: ', topic_eng)
-            print('content: ', content)
+            #print('id: ', id)
+            #print('topic: ', topic_eng)
+            #print('content: ', content)
 
-            output_path = f'./data/{topic_eng}/{id}/.txt'
+            output_path = f'./data/{topic_eng}/{id}.txt'
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
             with open(output_path, 'w', encoding='utf-8') as file:
                 file.write(content)
