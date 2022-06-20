@@ -1,5 +1,6 @@
 import os
 import json
+import argparse
 from collections import OrderedDict
 from tqdm import tqdm
 
@@ -40,6 +41,11 @@ def get_every_filename():
     return filenames
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--in_dir', type=str, required=True, default=None)
+    parser.add_argument('--out_dir', type=str, required=True, default=None)
+    args = parser.parse_args()
+
     topic = {
         '정치': 'politic',
         '경제': 'economy',
@@ -58,7 +64,7 @@ if __name__ == '__main__':
     for filename in tqdm(filenames):
         #print(f'{filename} is running...')
 
-        with open(f'./dataset/news_corpus/{filename}.json', 'r', encoding='utf-8') as file:
+        with open(f'{args.in_dir}/{filename}.json', 'r', encoding='utf-8') as file:
             json_data = json.load(file)
         for news_idx in range(len(json_data['document'])):
             news_data = json_data['document'][news_idx]
@@ -72,7 +78,7 @@ if __name__ == '__main__':
             #print('topic: ', topic_eng)
             #print('content: ', content)
 
-            output_path = f'./data/{topic_eng}/{id}.txt'
+            output_path = f'{args.out_dir}/{topic_eng}/{id}.txt'
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
             with open(output_path, 'w', encoding='utf-8') as file:
                 file.write(content)
