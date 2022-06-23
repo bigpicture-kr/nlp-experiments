@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  gpt:
+    build: .
+    #image: tensorflow/tensorflow:latest-gpu-jupyter
+    container_name: kogpt2
+    working_dir: /gpt
+    ports:
+      - 443:443
+      - 8888:8888
+      - 6006:6006
+    command: jupyter lab --config=/root/.jupyter/jupyter_lab_config.py
+    volumes:
+      - "$HOME/docker/kogpt2/src:/gpt"
+      - "$HOME/docker/kogpt2/jupyter_lab_config.py:/root/.jupyter/jupyter_lab_config.py"
+      - "/etc/letsencrypt/archive/rnd-ml.bigpicture.team:/root/.ssl"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+              driver: nvidia
