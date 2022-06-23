@@ -1,6 +1,6 @@
 # kogpt2
 This repository contains several experiments on the KoGPT2 model.
-All experiments in this are being conducted exclusively by the [Bigpicture Team](http://bigpicture.team) and were funded by [Ministry of SMEs and Startups](https://www.mss.go.kr).
+All experiments in this are being conducted exclusively by the [Bigpicture Team](http://bigpicture.team) and were funded by the [Ministry of SMEs and Startups](https://www.mss.go.kr).
 
 ## Contents
 
