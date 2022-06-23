@@ -1,3 +1,7 @@
 .venv/
 KoGPT2/
 __pycache__/
+.ipynb_checkpoints/
+data/
+dataset/
+
