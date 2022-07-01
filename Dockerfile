@@ -7,6 +7,7 @@ WORKDIR /gpt
 
 RUN apt-get update && apt-get install -y git
 RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+RUN pip install mxnet-cu112 gluonnlp
 RUN pip install jupyterlab
 RUN pip install ipywidgets
 RUN apt-get install -y npm && npm install -g n && n lts
