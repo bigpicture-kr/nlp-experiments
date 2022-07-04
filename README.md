@@ -4,7 +4,7 @@ All experiments in this are being conducted exclusively by the [Bigpicture Team]
 
 ## Contents
 
-### 1. [Topic Classification](https://github.com/bigpicture-kr/kogpt2/blob/master/src/NewsTopicClassification.ipynb)
+### 1. [Topic Classification](https://github.com/bigpicture-kr/kogpt2/blob/master/src/topic-classification/NewsTopicClassification.ipynb)
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/9818523/175227722-e8b503fd-c957-4c9b-ac3b-ef259ca73469.png" />
