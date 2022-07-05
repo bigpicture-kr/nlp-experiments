@@ -66,7 +66,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     filelist = get_filelist(args.in_dir)
-    for input_path in filelist:
+    for input_path in tqdm(filelist):
         data = build_corpus(input_path)
         filename = os.path.splitext(os.path.basename(input_path))[0] + '.csv'
         output_path = os.path.join(args.out_dir, filename)
