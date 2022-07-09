@@ -6,7 +6,7 @@ from minsu.nlp.generation.corpus import logger, GenerationExample
 
 class JjaltoonCorpus:
     def __init__(self, normalizer):
-        self.examples = []
+        self.normalizer = normalizer
         pass
 
     def _read_corpus(cls, input_file, quotechar='"'):
@@ -18,12 +18,9 @@ class JjaltoonCorpus:
         for i, line in enumerate(lines):
             if i == 0:
                 continue
-            text = line['speech']
+            text = self.normalizer(line['speech'])
             examples.append(GenerationExample(text=text))
         return examples
-    
-    def export_examples(self):
-        return self.examples
     
     def get_examples(self, data_root_path, mode):
         data_flist = []
@@ -38,7 +35,5 @@ class JjaltoonCorpus:
         for data_fpath in tqdm(data_flist, desc=f"loading {mode} data"):
             logger.info(f"loading {mode} data... LOOKING AT {data_fpath}")
             examples += self._create_examples(self._read_corpus(data_fpath))
-        
-        self.examples = examples
         
         return examples
