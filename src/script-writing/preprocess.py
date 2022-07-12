@@ -66,19 +66,23 @@ def get_filelist(dataset_path):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--in_dir', type=str, required=True, default=None)
-    parser.add_argument('--out_dir', type=str, required=True, default=None)
+    parser.add_argument('--out_file', type=str, required=True, default=None)
     args = parser.parse_args()
     
     sentiment_model = Pororo(task="sentiment", model="brainbert.base.ko.nsmc", lang="ko")
 
     filelist = get_filelist(args.in_dir)
+    datalist = []
+    fieldnames = None
     for input_path in tqdm(filelist):
         data = build_corpus(input_path, sentiment_model)
-        filename = os.path.splitext(os.path.basename(input_path))[0] + '.csv'
-        output_path = os.path.join(args.out_dir, filename)
-
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        with open(output_path, 'w', encoding='utf-8') as file:
-            writer = csv.DictWriter(file, fieldnames=data[0].keys())
-            writer.writeheader()
+        datalist.append(data[1:])
+        if fieldnames == None:
+            fieldnames = list(data[0].keys())
+    
+    os.makedirs(os.path.dirname(args.out_file), exist_ok=True)
+    with open(args.out_file, 'w', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        for data in datalist:
             writer.writerows(data)
