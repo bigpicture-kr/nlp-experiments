@@ -14,6 +14,8 @@ def parse_paragraph(index, metadata, paragraph, sentiment_model):
         'raw_speech': paragraph,
         'speech': paragraph,
         'sentiment': 'neural',
+        'sentiment_positive': 0.0,
+        'sentiment_negative': 0.0,
         'emotion': 'none',
         'emotion_intensity': 0
     }
