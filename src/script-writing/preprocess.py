@@ -2,10 +2,11 @@ import os
 import argparse
 import docx
 import csv
+from pororo import Pororo
 from glob import glob
 from tqdm import tqdm
 
-def parse_paragraph(index, metadata, paragraph):
+def parse_paragraph(index, metadata, paragraph, sentiment_model):
     row = {
         **metadata,
         'type': 'nouse',
@@ -24,10 +25,13 @@ def parse_paragraph(index, metadata, paragraph):
         row['script_title'] = paragraph
         metadata['script_title'] = paragraph
     
+    if row['type'] == 'speech':
+        row['sentiment'] = sentiment_model(row['speech']).lower()
+    
     row = {x: str(row[x]).strip() for x in row.keys()}
     return row
 
-def build_corpus(filepath):
+def build_corpus(filepath, sentiment_model):
     doc = docx.Document(filepath)
     data = []
     metadata = {
@@ -44,9 +48,9 @@ def build_corpus(filepath):
             # 한 행에 여러 대사가 존재하는 경우
             subparagraphs = paragraph.text.split('/')
             for subparagraph in subparagraphs:
-                data.append(parse_paragraph(i, metadata, subparagraph))
+                data.append(parse_paragraph(i, metadata, subparagraph, sentiment_model))
         else:
-            data.append(parse_paragraph(i, metadata, paragraph.text))
+            data.append(parse_paragraph(i, metadata, paragraph.text, sentiment_model))
     
     return data
 
@@ -64,10 +68,12 @@ if __name__ == '__main__':
     parser.add_argument('--in_dir', type=str, required=True, default=None)
     parser.add_argument('--out_dir', type=str, required=True, default=None)
     args = parser.parse_args()
+    
+    sentiment_model = Pororo(task="sentiment", model="brainbert.base.ko.nsmc", lang="ko")
 
     filelist = get_filelist(args.in_dir)
     for input_path in tqdm(filelist):
-        data = build_corpus(input_path)
+        data = build_corpus(input_path, sentiment_model)
         filename = os.path.splitext(os.path.basename(input_path))[0] + '.csv'
         output_path = os.path.join(args.out_dir, filename)
 
