@@ -26,7 +26,10 @@ def parse_paragraph(index, metadata, paragraph, sentiment_model):
         metadata['script_title'] = paragraph
     
     if row['type'] == 'speech':
-        row['sentiment'] = sentiment_model(row['speech']).lower()
+        sentiment = sentiment_model(row['speech'], show_probs=True)
+        row['sentiment'] = 'positive' if sentiment['positive'] >= 0.5 else 'negative'
+        row['sentiment_positive'] = sentiment['positive']
+        row['sentiment_negative'] = sentiment['negative']
     
     row = {x: str(row[x]).strip() for x in row.keys()}
     return row
@@ -69,7 +72,7 @@ if __name__ == '__main__':
     parser.add_argument('--out_file', type=str, required=True, default=None)
     args = parser.parse_args()
     
-    sentiment_model = Pororo(task="sentiment", model="brainbert.base.ko.nsmc", lang="ko")
+    sentiment_model = Pororo(task='sentiment', model='brainbert.base.ko.nsmc', lang='ko')
 
     filelist = get_filelist(args.in_dir)
     datalist = []
