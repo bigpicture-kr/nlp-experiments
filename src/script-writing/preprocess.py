@@ -72,9 +72,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--in_dir', type=str, required=True, default=None)
     parser.add_argument('--out_file', type=str, required=True, default=None)
+    parser.add_argument('--sentiment_model', type=str, required=False, default='brainbert.base.ko.nsmc')
     args = parser.parse_args()
     
-    sentiment_model = Pororo(task='sentiment', model='brainbert.base.ko.nsmc', lang='ko')
+    sentiment_model = Pororo(task='sentiment', model=args.sentiment_model, lang='ko')
 
     filelist = get_filelist(args.in_dir)
     datalist = []
