@@ -3,7 +3,7 @@ FROM tensorflow/tensorflow:latest-gpu
 MAINTAINER Seongbum Seo <sbumseo@bigpicture.team>
 
 ENV PYTHONUNBUFFERED 0
-WORKDIR /gpt
+WORKDIR /nlp
 
 RUN apt-get update && apt-get install -y git
 RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
