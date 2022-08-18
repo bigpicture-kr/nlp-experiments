@@ -13,7 +13,8 @@ services:
     command: jupyter lab --config=/root/.jupyter/jupyter_lab_config.py
     volumes:
       - "$HOME/git/nlp-experiments/src:/nlp"
-      - "$HOME/git/nlp-experiments/jupyter_lab_config.py:/root/.jupyter/jupyter_lab_config.py"
+      - "$HOME/git/nlp-experiments/jupyter_lab_config_ssl.py:/root/.jupyter/jupyter_lab_config.py"
+      - "/etc/letsencrypt/archive/rnd-ml.bigpicture.team:/root/.ssl"
     deploy:
       resources:
         reservations:
