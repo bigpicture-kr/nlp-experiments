@@ -1,5 +1,5 @@
 # NLP Experiments
-This repository contains several experiments with transformer based models.
+This repository contains several experiments with transformer based language models.
 All experiments in this are being conducted exclusively by the [Bigpicture Team](http://bigpicture.team) and were funded by the [Ministry of SMEs and Startups](https://www.mss.go.kr).
 
 ## Contents
@@ -18,7 +18,7 @@ It varies by topic, but shows up to 96% classification accuracy.
 
 This model has been fine-tuned with 130 [Jjaltoon](https://www.youtube.com/c/%EC%A7%A4%ED%88%B01) scripts.
 
-It takes a short text as input and the model predicts and generates the rest of the sequence.
+It takes a short text as input and generates the rest of the sequence.
 
 #### Examples
 
