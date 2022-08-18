@@ -1,5 +1,5 @@
 # NLP Experiments
-This repository contains several experiments on the transformer based models.
+This repository contains several experiments with transformer based models.
 All experiments in this are being conducted exclusively by the [Bigpicture Team](http://bigpicture.team) and were funded by the [Ministry of SMEs and Startups](https://www.mss.go.kr).
 
 ## Contents
