@@ -3,6 +3,7 @@ version: "3"
 services:
   nlp-experiments:
     build: .
+    image: nlp-experiments-ssl
     #image: tensorflow/tensorflow:latest-gpu-jupyter
     container_name: nlp-experiments
     working_dir: /nlp
